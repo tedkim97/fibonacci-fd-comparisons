@@ -32,7 +32,7 @@ namespace FibDemo
                 double ssq = times.Sum(d => Math.Pow((d - averageExecTime), 2));
                 stdExecTime = Math.Sqrt(ssq / N);
             }
-            return $"N={N} - avg={averageExecTime} - std={stdExecTime} - min={shortestExecTime} - max={longestExecTime}";
+            return $"trials={N} - avg={averageExecTime} - std={stdExecTime} - min={shortestExecTime} - max={longestExecTime}";
         }
     }
 }

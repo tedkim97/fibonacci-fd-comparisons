@@ -46,10 +46,10 @@ Use: `gcc -Wall -std=c11 -O3 -o compare_O3.out fibonacci.c time_fib.c -lm`. Here
 Note that the unsigned 64bit integer (`uint64_t`) quickly overflows, so this ceases to be useful past the 93rd term (i.e It's very wrong, but fast). You can use some biginteger library in C (or build your own) to fix this behavior. 
 
 <figure>
-	<center>
+	<p align="center">
 		<img src="assets/calculations_shen_comix.png" alt="using atomic types" width="300"/>
 		<figcaption>credit to shencomix</figcaption>
-	</center>
+	</p>
 </figure>
 
 

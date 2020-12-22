@@ -45,8 +45,12 @@ Use: `gcc -Wall -std=c11 -O3 -o compare_O3.out fibonacci.c time_fib.c -lm`. Here
 #### Atomic Type Notes
 Note that the unsigned 64bit integer (`uint64_t`) quickly overflows, so this ceases to be useful past the 93rd term (i.e It's very wrong, but fast). You can use some biginteger library in C (or build your own) to fix this behavior. 
 
-![using atomic datatypes](https://imgur.com/Jkdtlox)
-(credit to shencomix)
+<figure>
+	<center>
+		<img src="assets/calculations_shen_comix.png" alt="using atomic types" width="300"/>
+		<figcaption>credit to shencomix</figcaption>
+	</center>
+</figure>
 
 
 ## C# results

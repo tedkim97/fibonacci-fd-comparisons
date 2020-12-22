@@ -48,7 +48,7 @@ namespace FibDemo
             return FibTailRecursive(n-1, b, BigInteger.Add(a, b));
         }
 
-        public static BigInteger FibFDE(int n) {
+        public static BigInteger FibFD(int n) {
             return FibFastDouble(n).Item1;
         }
 
@@ -73,16 +73,16 @@ namespace FibDemo
             }
         }
 
-        public static BigInteger FibFDETR(int n) {
+        public static BigInteger FibFDTR(int n) {
             if (n == 0) {
                 return BigInteger.Zero;
             }
             int cache_size = (int) Math.Floor(Math.Log(n, 2)) + 1;
             int[] cache = new int[cache_size];
-            return FibFDETailRecursion(n, cache, 0);
+            return FibFDTailRecursion(n, cache, 0);
         }
 
-        private static BigInteger FibFDETailRecursion(int n, int[] ns, int ind) {
+        private static BigInteger FibFDTailRecursion(int n, int[] ns, int ind) {
             if (n == 0) {
                 BigInteger c = BigInteger.Zero;
                 BigInteger d = BigInteger.One;
@@ -100,10 +100,10 @@ namespace FibDemo
                 return c;
             }
             ns[ns.Length - ind - 1] = n;
-            return FibFDETailRecursion(n / 2, ns, ind + 1);
+            return FibFDTailRecursion(n / 2, ns, ind + 1);
         }
 
-        public static BigInteger FibFDEIter(int n) {
+        public static BigInteger FibFDIter(int n) {
             if (n == 0) {
                 return BigInteger.Zero;
             }

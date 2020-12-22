@@ -39,7 +39,7 @@ namespace FibDemo
             return FibTailRecursive(n - 1, b, a + b);
         }
 
-        public static ulong FibFDE(int n) {
+        public static ulong FibFD(int n) {
             return FibFastDouble(n).Item1;
         }
 
@@ -62,16 +62,16 @@ namespace FibDemo
             
         }
 
-        public static ulong FibFDETR(int n) {
+        public static ulong FibFDTR(int n) {
             if (n == 0) {
                 return 0;
             }
             int cache_size = (int) Math.Floor(Math.Log(n, 2)) + 1;
             int[] cache = new int[cache_size];
-            return FibFDETailRecursion(n, cache, 0);
+            return FibFDTailRecursion(n, cache, 0);
         }
 
-        private static ulong FibFDETailRecursion(int n, int[] ns, int ind) {
+        private static ulong FibFDTailRecursion(int n, int[] ns, int ind) {
             if (n == 0) {
                 ulong c = 0, d = 1;
                 ulong tempc, tempd;
@@ -88,10 +88,10 @@ namespace FibDemo
                 return c;
             }
             ns[ns.Length - ind - 1] = n;
-            return FibFDETailRecursion(n / 2, ns, ind + 1);
+            return FibFDTailRecursion(n / 2, ns, ind + 1);
         }
 
-        public static ulong FibFDEIter(int n) {
+        public static ulong FibFDIter(int n) {
             if (n == 0) {
                 return 0;
             }

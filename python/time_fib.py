@@ -25,7 +25,7 @@ if __name__ == '__main__':
         print(f"adjusting recursion limit to: {sys.getrecursionlimit()}")
 
     print(f"Calculating speed for fib({N}) - {nruns} times")
-    func_calls = ['fib_iter({})', 'fib_fde_iter({})', 'fib_fde_tr({})']
+    func_calls = ['fib_iter({})', 'fib_fd_iter({})', 'fib_fd_tr({})']
     setup = load_file('fibonacci.py')
     for fc in func_calls:
         temp_stmt = fc.format(N)

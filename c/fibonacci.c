@@ -38,7 +38,7 @@ uint64_t fib_tr(int n, uint64_t n0, uint64_t n1) {
     return fib_tr(n - 1, n1, n0 + n1);
 }
 
-uint64_t fib_fde_iter(int n) {
+uint64_t fib_fd_iter(int n) {
     if(n == 0) {
         return 0;
     }
@@ -64,7 +64,7 @@ uint64_t fib_fde_iter(int n) {
     return c;
 }
 
-uint64_t fib_fde_tail_recursive(int n, int ns[], int ind, int maxVal) {
+uint64_t fib_fd_tail_recursive(int n, int ns[], int ind, int maxVal) {
     if(n == 0) {
         uint64_t tc = 0, td = 1;
         uint64_t tempc, tempd;
@@ -82,15 +82,15 @@ uint64_t fib_fde_tail_recursive(int n, int ns[], int ind, int maxVal) {
 
     } else {
         ns[maxVal - ind - 1] = n;
-        return fib_fde_tail_recursive(n/2, ns, ind+1, maxVal);
+        return fib_fd_tail_recursive(n/2, ns, ind+1, maxVal);
     }
 }
 
-uint64_t fib_fde_tr(int n) {
+uint64_t fib_fd_tr(int n) {
     if(n == 0) {
         return 0;
     }
     const int max_len = floor(log2(n)) + 1;
     int nth_call[max_len];
-    return fib_fde_tail_recursive(n, nth_call, 0, max_len);
+    return fib_fd_tail_recursive(n, nth_call, 0, max_len);
 }

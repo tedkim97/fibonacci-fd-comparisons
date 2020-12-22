@@ -1,12 +1,12 @@
 # Iterative and Tail Recursive Fibonacci Sequence Implementations
 
-Examining Iterative Variations and Tail Call Recursive implementations of the Fast Double Exponentiation Method for computing the Fibonacci sequence. These implementations were programmed in `C (c11 with gcc 7.3.0)`, `C# (.NET 5.0)` and `Python (3.7.2)`.
+Examining Iterative Variations and Tail Call Recursive implementations of the Fast Doubling Method for computing the Fibonacci sequence. These implementations were programmed in `C (c11 with gcc 7.3.0)`, `C# (.NET 5.0)` and `Python (3.7.2)`.
 
 
 ## C results
-The implementations are called `fib_iter`, `fib_tr`, `fib_fde_iter`, and `fib_fde_tail_recursive` that correspond to the O(n) iterative, O(n) tail-recursive, O(log n) iterative, and O(log n) tail-recursive versions. The timing function checks how long it takes each implementation to calculate `fib(100000)` 1000 times. Read out the source for more details. 
+The implementations are called `fib_iter`, `fib_tr`, `fib_fd_iter`, and `fib_fd_tail_recursive` that correspond to the O(n) iterative, O(n) tail-recursive, O(log n) iterative, and O(log n) tail-recursive versions. The timing function checks how long it takes each implementation to calculate `fib(100000)` 1000 times. Read out the source for more details. 
 
-Examining the assemblies, tail call optimization for the tail recursive naive method occurs at the `-O2` level while the FDE (fast double exponentiation) implementation is optimized at `-O3`. Note that when I only ran the TCO optimization flag (`gcc -Wall -foptimize-sibling-calls ...`), the compiler didn't eliminate the recursion in the assembly, and the performance was the same as running no optimization. 
+Examining the assemblies, tail call optimization for the tail recursive naive method occurs at the `-O2` level while the FD (fast double exponentiation) implementation is optimized at `-O3`. Note that when I only ran the TCO optimization flag (`gcc -Wall -foptimize-sibling-calls ...`), the compiler didn't eliminate the recursion in the assembly, and the performance was the same as running no optimization. 
 
 ##### Using No GCC Optimizations
 Use: `gcc -Wall -std=c11 -o compare_no_opt.out fibonacci.c time_fib.c -lm`
@@ -16,8 +16,8 @@ Use: `gcc -Wall -std=c11 -o compare_no_opt.out fibonacci.c time_fib.c -lm`
 
 (ITER) Time elapsed 0.306616
 (TR NAIVE) Time elapsed 1.028053
-(FDE ITER) Time elapsed 0.000167
-(FDE TR) Time elapsed 0.000228
+(FD ITER) Time elapsed 0.000167
+(FD TR) Time elapsed 0.000228
 ```
 
 ##### Using O2 Optimizations
@@ -27,19 +27,19 @@ Use: `gcc -Wall -std=c11 -O2 -o compare_O2.out fibonacci.c time_fib.c -lm`. Here
 
 (ITER) Time elapsed 0.112924
 (TR NAIVE) Time elapsed 0.038231
-(FDE ITER) Time elapsed 0.000077
-(FDE TR) Time elapsed 0.000076
+(FD ITER) Time elapsed 0.000077
+(FD TR) Time elapsed 0.000076
 ```
 
 ##### Using O3 Optimizations
-Use: `gcc -Wall -std=c11 -O3 -o compare_O3.out fibonacci.c time_fib.c -lm`. Here is where TCO is applied to `fib_fde_tail_recursive`.
+Use: `gcc -Wall -std=c11 -O3 -o compare_O3.out fibonacci.c time_fib.c -lm`. Here is where TCO is applied to `fib_fd_tail_recursive`.
 ```bash
 ./compare_O3.out
 
 (ITER) Time elapsed 0.104128
 (TR NAIVE) Time elapsed 0.038246
-(FDE ITER) Time elapsed 0.000078
-(FDE TR) Time elapsed 0.000076
+(FD ITER) Time elapsed 0.000078
+(FD TR) Time elapsed 0.000076
 ```
 
 #### Atomic Type Notes
@@ -65,11 +65,11 @@ dotnet run
 
 Iteration(100000) <ulong> (ticks)
 trials=1000 - avg=2763.548 - std=549.7612679118089 - min=2499 - max=8785
-FDE(100000) <ulong> (ticks)
+FD (100000) <ulong> (ticks)
 trials=1000 - avg=9.499 - std=106.87950223967235 - min=3 - max=3374
-FDE Iteration(100000) <ulong> (ticks)
+FD Iteration(100000) <ulong> (ticks)
 trials=1000 - avg=4.738 - std=70.77182600441799 - min=1 - max=2237
-FDE Tail Recursion(100000) <ulong> (ticks)
+FD Tail Recursion(100000) <ulong> (ticks)
 trials=1000 - avg=5.363 - std=76.05347612699912 - min=2 - max=2405
 ```
 
@@ -79,11 +79,11 @@ dotnet run
 
 Iteration(100000) <BigInteger> (ticks)
 trials=1000 - avg=2503169.817 - std=1036866.4614311559 - min=1230671 - max=5125936
-FDE(100000) <BigInteger> (ticks)
+FD(100000) <BigInteger> (ticks)
 trials=1000 - avg=11635.472 - std=1352.9710873540496 - min=10651 - max=20619
-FDE Iteration(100000) <BigInteger> (ticks)
+FD Iteration(100000) <BigInteger> (ticks)
 trials=1000 - avg=11425.559 - std=826.2267004394132 - min=10663 - max=17409
-FDE Tail Recursion(100000) <BigInteger> (ticks)
+FD Tail Recursion(100000) <BigInteger> (ticks)
 trials=1000 - avg=11331.992 - std=718.4570564313501 - min=10694 - max=17592
 ```
 
@@ -96,8 +96,8 @@ python time_fib.py
 
 Calculating speed for fib(100000) - 1000 times
 fib_iter(100000) => 113.6272065
-fib_fde_iter(100000) => 4.4318095
-fib_fde_tr(100000) => 3.607529299999996
+fib_fd_iter(100000) => 4.4318095
+fib_fd_tr(100000) => 3.607529299999996
 ```
 
 # Recreating Results
@@ -132,7 +132,7 @@ As a programming exercise, I like to implement the iterative and tail recursive 
 ## Design Notes
 
 ### C
-Initially I was planning to implement the classic version of the FDE method with a tuple-like struct. This method worked completely fine, but whenever I compiled the program with optimization flags, the output would returns 0 for all N. As a result I just excluded it from the analysis. 
+Initially I was planning to implement the classic version of the FD method with a tuple-like struct. This method worked completely fine, but whenever I compiled the program with optimization flags, the output would returns 0 for all N. As a result I just excluded it from the analysis. 
 
 ```c
 typedef struct fibtuple{
@@ -146,12 +146,12 @@ void AssignFibTuple(FibTuple *ft, uint64_t t0, uint64_t t1){
 	return;
 }
 
-FibTuple fibb_fde(int n){
+FibTuple fibb_fd(int n){
 	FibTuple f1; 
 	if(n == 0){
 		return newFT(0, 1);
 	}else{
-		FibTuple f1 = fibb_fde(floor(n / 2));
+		FibTuple f1 = fibb_fd(floor(n / 2));
 		uint64_t c = f1.t0 * (f1.t1 * 2 - f1.t0);
 		uint64_t d = (f1.t0 * f1.t0) + (f1.t1 * f1.t1);
 		if(n % 2 == 0){

@@ -11,23 +11,21 @@ namespace FibDemo
             int N = 100000;
             int repeat = 1000;
 
-            // var TR_res_2 = Timer.TimeIt<ulong>(Fibonacci.FibTR, N, repeat);
-            // Console.WriteLine($"Tail Recursion <ulong> {Timer.CalcPerformanceStatistic(TR_res_2)}");
             var ITER_res_2 = Timer.TimeIt<ulong>(Fibonacci.FibIterative, N, repeat);
             Console.WriteLine($"Iteration({N}) <ulong> (ticks)");
             Console.WriteLine($"{Timer.CalcPerformanceStatistic(ITER_res_2)}");
             
-            var FDE_res_2 = Timer.TimeIt<ulong>(Fibonacci.FibFDE, N, repeat);
+            var FD_res_2 = Timer.TimeIt<ulong>(Fibonacci.FibFD, N, repeat);
             Console.WriteLine($"FDE({N}) <ulong> (ticks)");
-            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDE_res_2)}");
+            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FD_res_2)}");
 
-            var FDE_iter_2 = Timer.TimeIt<ulong>(Fibonacci.FibFDEIter, N, repeat);
+            var FD_iter_2 = Timer.TimeIt<ulong>(Fibonacci.FibFDIter, N, repeat);
             Console.WriteLine($"FDE Iteration({N}) <ulong> (ticks)");
-            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDE_iter_2)}");
+            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FD_iter_2)}");
 
-            var FDETR_res_2 = Timer.TimeIt<ulong>(Fibonacci.FibFDETR, N, repeat);
+            var FDTR_res_2 = Timer.TimeIt<ulong>(Fibonacci.FibFDTR, N, repeat);
             Console.WriteLine($"FDE Tail Recursion({N}) <ulong> (ticks)");
-            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDETR_res_2)}");
+            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDTR_res_2)}");
             
             Console.WriteLine("Systems.Numeric");
             // var TR_res = Timer.TimeIt<BigInteger>(FibonacciBigInt.FibTR, N, repeat);
@@ -36,17 +34,17 @@ namespace FibDemo
             Console.WriteLine($"Iteration({N}) <BigInteger> (ticks)");
             Console.WriteLine($"{Timer.CalcPerformanceStatistic(ITER_res)}");
 
-            var FDE_res = Timer.TimeIt<BigInteger>(FibonacciBigInt.FibFDE, N, repeat);
+            var FD_res = Timer.TimeIt<BigInteger>(FibonacciBigInt.FibFD, N, repeat);
             Console.WriteLine($"FDE({N}) <BigInteger> (ticks)");
-            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDE_res)}");
+            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FD_res)}");
             
-            var FDE_iter = Timer.TimeIt<BigInteger>(FibonacciBigInt.FibFDEIter, N, repeat);
+            var FD_iter = Timer.TimeIt<BigInteger>(FibonacciBigInt.FibFDIter, N, repeat);
             Console.WriteLine($"FDE Iteration({N}) <BigInteger> (ticks)");
-            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDE_iter)}");
+            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FD_iter)}");
 
-            var FDETR_res = Timer.TimeIt<BigInteger>(FibonacciBigInt.FibFDETR, N, repeat);
+            var FDTR_res = Timer.TimeIt<BigInteger>(FibonacciBigInt.FibFDTR, N, repeat);
             Console.WriteLine($"FDE Tail Recursion({N}) <BigInteger> (ticks)");
-            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDETR_res)}");
+            Console.WriteLine($"{Timer.CalcPerformanceStatistic(FDTR_res)}");
         }
     }
 }

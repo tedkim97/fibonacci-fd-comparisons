@@ -26,17 +26,17 @@ int main(){
 
     clock_t b3 = clock();
 	for(int j = 0; j < trials; j++){
-		fib_fde_iter(N);            
+		fib_fd_iter(N);            
 	}
 	clock_t e3 = clock();
 	double time_elapsed_3 = (double)(e3 - b3) / CLOCKS_PER_SEC;
-	printf("(FDE ITER) Time elapsed %f\n", time_elapsed_3);
+	printf("(FD ITER) Time elapsed %f\n", time_elapsed_3);
 
     clock_t b4 = clock();
 	for(int j = 0; j < trials; j++){
-		fib_fde_tr(N);            
+		fib_fd_tr(N);            
 	}
 	clock_t e4 = clock();
 	double time_elapsed_4 = (double)(e4 - b4) / CLOCKS_PER_SEC;
-	printf("(FDE TR) Time elapsed %f\n", time_elapsed_4);
+	printf("(FD TR) Time elapsed %f\n", time_elapsed_4);
 }

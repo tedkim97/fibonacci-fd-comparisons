@@ -17,13 +17,13 @@ uint64_t fib_tr(int n, uint64_t n0, uint64_t n1);
 
 // Calculate the Nth term of the fibonacci sequence with the 
 // Fast Double Exponentiation method (iteratively)
-uint64_t fib_fde_iter(int n);
+uint64_t fib_fd_iter(int n);
 
 // Calculate the Nth term of the fibonacci sequence with the 
 // Fast Double Exponentiation method (tail recursively)
-uint64_t fib_fde_tail_recursive(int n, int ns[], int ind, int maxVal);
+uint64_t fib_fd_tail_recursive(int n, int ns[], int ind, int maxVal);
 
-// Wrapper for fib_fde_tail_recursive
-uint64_t fib_fde_tr(int n);
+// Wrapper for fib_fd_tail_recursive
+uint64_t fib_fd_tr(int n);
 
 #endif

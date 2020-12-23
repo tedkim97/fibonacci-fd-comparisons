@@ -47,7 +47,9 @@ Note that the unsigned 64bit integer (`uint64_t`) quickly overflows, so this cea
 
 <p align="center">
 	<img src="assets/calculations_shen_comix.png" alt="using atomic types" width="300"/>
-	<center>credit to shencomix</center>
+</p>
+<p align="center">
+credit to shencomix
 </p>
 
 

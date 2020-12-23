@@ -45,12 +45,10 @@ Use: `gcc -Wall -std=c11 -O3 -o compare_O3.out fibonacci.c time_fib.c -lm`. Here
 #### Atomic Type Notes
 Note that the unsigned 64bit integer (`uint64_t`) quickly overflows, so this ceases to be useful past the 93rd term (i.e It's very wrong, but fast). You can use some biginteger library in C (or build your own) to fix this behavior. 
 
-<figure>
-	<p align="center">
-		<img src="assets/calculations_shen_comix.png" alt="using atomic types" width="300"/>
-		<figcaption>credit to shencomix</figcaption>
-	</p>
-</figure>
+<p align="center">
+	<img src="assets/calculations_shen_comix.png" alt="using atomic types" width="300"/>
+	<center>credit to shencomix</center>
+</p>
 
 
 ## C# results
@@ -132,7 +130,7 @@ As a programming exercise, I like to implement the iterative and tail recursive 
 ## Design Notes
 
 ### C
-Initially I was planning to implement the classic version of the FD method with a tuple-like struct. This method worked completely fine, but whenever I compiled the program with optimization flags, the output would returns 0 for all N. As a result I just excluded it from the analysis. 
+Initially I was planning to implement the classic version of the FD method with a tuple-like struct. This method worked completely fine, but whenever I compiled the program with optimization flags, the output would returns 0 for all N (I'm not a C expert, but I believe it has something to do with undefined behavior). As a result I just excluded it from the comparisons. 
 
 ```c
 typedef struct fibtuple{
@@ -177,5 +175,5 @@ public T FibTR<T>(int n, T n0, T n1) where T: ulong, BigInteger{
 }
 ```
 
-Unfortunately, there is no (easy) discriminated unions for c#. Furthermore trying to use `where T: IComparable` won't work as casting `(T) 0` or `(T) 1` won't work for several classes that interface with `IComparable` (but will work for `int`, `long`, `ulong`, `float`, `BigInteger`). The desire for discriminated unions is another reason why `F#` is more suited for this exercise.
+Unfortunately, there is no "ergonomic" discriminated unions for c#. Furthermore trying to use `where T: IComparable` won't work as casting `(T) 0` or `(T) 1` won't work for several classes that interface with `IComparable` (but will work for `int`, `long`, `ulong`, `float`, `BigInteger`). The desire for discriminated unions is another reason why `F#` is more suited for this exercise.
 

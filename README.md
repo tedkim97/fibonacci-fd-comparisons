@@ -129,7 +129,7 @@ gcc -Wall -std=c11 -S -o fib_compiled_no_opt.s fibonacci.c -lm
 ### Why? 
 As a programming exercise, I like to implement the iterative and tail recursive versions of recursive functions (even if the language doesn't support [Tail Call Optimizations](https://en.wikipedia.org/wiki/Tail_call)). 
 
-## Design Notes
+# Design Notes
 
 ### C
 Initially I was planning to implement the classic version of the FD method with a tuple-like struct. This method worked completely fine, but whenever I compiled the program with optimization flags, the output would returns 0 for all N (I'm not a C expert, but I believe it has something to do with undefined behavior). As a result I just excluded it from the comparisons. 
@@ -179,3 +179,10 @@ public T FibTR<T>(int n, T n0, T n1) where T: ulong, BigInteger{
 
 Unfortunately, there is no "ergonomic" discriminated unions for c#. Furthermore trying to use `where T: IComparable` won't work as casting `(T) 0` or `(T) 1` won't work for several classes that interface with `IComparable` (but will work for `int`, `long`, `ulong`, `float`, `BigInteger`). The desire for discriminated unions is another reason why `F#` is more suited for this exercise.
 
+# Complexities Consideration
+
+### Time Complexity
+The iterative and tail-recursive versions of these functions are **not true translations** of the naive fast doubling method. Even though these implementations share the same asymptotic complexity (`O(log n)`), the iterative and recursive versions have an overhead of `O(log n) + O(log n)`. The process of calculating the takes \~`O(log n)`, and the fast doubling calculations also takes another \~`O(log n)`. 
+
+### Space Complexity
+The space complexity of the iterative and tail-recursive function is O(log n). Some people might say that the space complexity of the naive fast doubling algorithm is O(1), but if you factor in memory taken on the stack, then the space complexities are the same.

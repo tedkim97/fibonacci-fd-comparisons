@@ -182,7 +182,7 @@ Unfortunately, there is no "ergonomic" discriminated unions for c#. Furthermore 
 # Complexities Consideration
 
 ### Time Complexity
-The iterative and tail-recursive versions of these functions are **not true translations** of the naive fast doubling method. Even though these implementations share the same asymptotic complexity (`O(log n)`), the iterative and recursive versions have an overhead of `O(log n) + O(log n)`. The process of calculating the takes \~`O(log n)`, and the fast doubling calculations also takes another \~`O(log n)`. 
+The iterative and tail-recursive versions of these functions are **not true translations** of the naive fast doubling method. Even though these implementations share the same asymptotic complexity (`O(log n)`), the iterative and recursive versions have an overhead of `O(log n) + O(log n)`. The process of calculating the `n` to iterate takes \~`O(log n)`, and the fast doubling calculations also takes another \~`O(log n)`. 
 
 ### Space Complexity
 The space complexity of the iterative and tail-recursive function is O(log n). Some people might say that the space complexity of the naive fast doubling algorithm is O(1), but if you factor in memory taken on the stack, then the space complexities are the same.

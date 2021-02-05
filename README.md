@@ -43,7 +43,7 @@ Use: `gcc -Wall -std=c11 -O3 -o compare_O3.out fibonacci.c time_fib.c -lm`. Here
 ```
 
 #### Atomic Type Notes
-Note that the unsigned 64bit integer (`uint64_t`) quickly overflows, so this ceases to be useful past the 93rd term (i.e It's very wrong, but fast). You can use some biginteger library in C (or build your own) to fix this behavior. 
+Note that the unsigned 64bit integer (`uint64_t`) quickly overflows, so this ceases to be useful past the 93rd term (i.e It's fast, but very wrong). You can use some biginteger library in C (or build your own) to fix this behavior. 
 
 <p align="center">
 	<img src="assets/calculations_shen_comix.png" alt="using atomic types" width="300"/>
@@ -55,7 +55,7 @@ credit to shencomix
 
 ## C# results
 
-[I remember reading in a stack overflow comment that C# with .NET 4.0 provided TCO optimization support](https://stackoverflow.com/questions/55008730/why-is-my-tail-call-optimized-implementation-faster-than-the-normal-recursive-if) and I *naively* assumed that it would be supported in any c# code I wrote. However, the speed and opcode of my program indicated that it wasn't happening here. [This post gives a bit more insight about optimizations and TCO behavior in c#](https://stackoverflow.com/a/15865150/14634093). Ultimately if you really want TCO, F# would be a better .NET language choice. 
+[I remember reading in a stack overflow comment that C# with .NET 4.0 provided TCO optimization support](https://stackoverflow.com/questions/55008730/why-is-my-tail-call-optimized-implementation-faster-than-the-normal-recursive-if) and I *naively* assumed that it would be supported in any c# code I wrote. However, there wasn't any clear indication of this from the opcode of my program indicated that it wasn't happening here. [This post gives a bit more insight about optimizations and TCO behavior in c#](https://stackoverflow.com/a/15865150/14634093). Ultimately if you really want TCO, F# would be a better .NET language choice. 
  
 Just like the C implementation, unsigned 64bit integer (`ulong`) also overflows. Fortunately Microsoft provides a native "BigInteger" class that operates just like other number types! This comes with a mild performance hit. 
 
@@ -95,9 +95,49 @@ Python numbers can hold an arbitrary number of digits, so we don't have to worry
 python time_fib.py
 
 Calculating speed for fib(100000) - 1000 times
-fib_iter(100000) => 113.6272065
-fib_fd_iter(100000) => 4.4318095
-fib_fd_tr(100000) => 3.607529299999996
+fib_iter(100000) => 146.0427008
+fib_fd(100000) => 4.733899500000007 # this implementation was excluded from the repo - I just used a popular one on the internet
+fib_fd_iter(100000) => 3.0186159000000146
+fib_fd_tr(100000) => 4.225305200000008
+```
+
+## C++ results
+Using the [GMP](https://gmplib.org/) library (which is actually a C library, but has a very nice C++ interface and works well with templating) I have also compiled results.
+
+##### Using No GCC Optimizations
+Use: `g++ -Wall -std=c++17 fibonacci.h time_fib.cpp -lgmpxx -lgmp -lm -o compare_no_opt`
+
+```bash
+./compare_no_opt
+calculating Fib(100000) with 1000
+(ITER) Time elapsed: 42.3056
+(Fast Doubling Recursion) Time elapsed: 0.19995
+(Fast Doubling ITER) Time elapsed: 0.18583
+(Fast Doubling Tail Recursive) Time elapsed: 0.187658    
+```
+
+##### Using O2 Optimizations
+Use: `g++ -Wall -std=c++17 fibonacci.h time_fib.cpp -lgmpxx -lgmp -lm -O2 -o compare_O2`
+.
+```bash
+./compare_O2
+calculating Fib(100000) with 1000
+(ITER) Time elapsed: 38.1555
+(Fast Doubling Recursion) Time elapsed: 0.182066
+(Fast Doubling ITER) Time elapsed: 0.186344
+(Fast Doubling Tail Recursive) Time elapsed: 0.194264 
+```
+
+##### Using O3 Optimizations
+Use: `g++ -Wall -std=c++17 fibonacci.h time_fib.cpp -lgmpxx -lgmp -lm -O3 -o compare_O3`.
+
+```bash
+./compare_O3
+calculating Fib(100000) with 1000
+(ITER) Time elapsed: 38.3054
+(Fast Doubling Recursion) Time elapsed: 0.18567
+(Fast Doubling ITER) Time elapsed: 0.208344
+(Fast Doubling Tail Recursive) Time elapsed: 0.182827
 ```
 
 # Recreating Results
@@ -112,18 +152,29 @@ python time_fib.py -n 100000 -r 10
 ```
 
 ```bash
-gcc -Wall -std=c11 -O3 -o compare_O3.out fibonacci.c time_fib.c -lm
-gcc -Wall -std=c11 -O2 -o compare_O2.out fibonacci.c time_fib.c -lm
-gcc -Wall -std=c11 -o compare_no_opt.out fibonacci.c time_fib.c -lm
+gcc -Wall -std=c11 -O3 fibonacci.c time_fib.c -lm -o compare_O3.out 
+gcc -Wall -std=c11 -O2 fibonacci.c time_fib.c -lm -o compare_O2.out 
+gcc -Wall -std=c11 fibonacci.c time_fib.c -lm -o compare_no_opt.out 
 ```
 
+```bash
+g++ -Wall -std=c++17 -O3 fibonacci.h time_fib.cpp -lgmpxx -lgmp -o compare_O3.out
+g++ -Wall -std=c++17 -O2 fibonacci.h time_fib.cpp -lgmpxx -lgmp -o compare_O2.out 
+g++ -Wall -std=c++17 fibonacci.h time_fib.cpp -lgmpxx -lgmp -o compare_no_opt.out 
+```
 ### Examining Assemblies 
-If you want to examine the assemblies of the C programs:
+If you want to examine the assemblies of the C or C++ programs:
 
 ```bash
-gcc -Wall -std=c11 -O3 -S -o fib_compiled_O3.s fibonacci.c -lm
-gcc -Wall -std=c11 -O2 -S -o fib_compiled_O2.s fibonacci.c -lm
-gcc -Wall -std=c11 -S -o fib_compiled_no_opt.s fibonacci.c -lm
+gcc -Wall -std=c11 -O3 -S -o fib_asm_O3.s fibonacci.c -lm
+gcc -Wall -std=c11 -O2 -S -o fib_asm_O2.s fibonacci.c -lm
+gcc -Wall -std=c11 -S -o fib_asm_no_opt.s fibonacci.c -lm
+```
+
+```bash
+g++ -Wall -std=c++17 -O3 fibonacci.h time_fib.cpp -lgmpxx -lgmp -S -o fib_asm_O3.s
+g++ -Wall -std=c++17 -O2 fibonacci.h time_fib.cpp -lgmpxx -lgmp -S -o fib_asm_O2.s
+g++ -Wall -std=c++17 fibonacci.h time_fib.cpp -lgmpxx -lgmp -S -o fib_asm_no_opt.s
 ```
 
 ### Why? 
